@@ -26,7 +26,8 @@
                 if (index == -1) {
 
                 } else {
-                    hash = url.substring(url.indexOf('#') + 1)
+                    hash = url.substring(url.indexOf('#') + 1);
+
                 }
 
             };
@@ -58,6 +59,8 @@
             return Router.prototype.defaultCfg[key];
         }
     };
+
+    Router.fn.init.prototype = Router.fn;
 
     /**
      *
