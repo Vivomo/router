@@ -27,24 +27,28 @@
 
                 } else {
                     hash = url.substring(url.indexOf('#') + 1);
-
+                    this.getXHRHtml(this.getTarget(hash), function (xhr) {
+                        viewElem.innerHTML = xhr.responseText;
+                    });
                 }
-
-            };
-            console.log(this)
+            }.bind(this);
         },
         getTarget: function (hash) {
             if (hash.indexOf('.') == -1) {
-                return hash + Router.prototype.getConfig('suffix')
+                return hash + this.getConfig('suffix');
             }
             return hash
         },
-        getXHRHtml: function (url) {
+        getXHRHtml: function (url, callback) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
-                    console.log(xhr.responseText);
+                    if (xhr.status == 200) {
+                        callback && callback(xhr);
+                    } else {
+                        //TODO
+                    }
                 }
             };
             xhr.send(null);
@@ -70,6 +74,7 @@
     function isValidElem(param) {
         return Object.prototype.toString.call(param).substr(8,4) == 'HTML' && !!param.parentNode;
     }
+
 
 
 })(window);
